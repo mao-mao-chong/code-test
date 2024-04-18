@@ -37,7 +37,7 @@ public class ProductController {
             BeanUtils.copyProperties(productVO,commonQueryBean);
             returnMsg = productService.queryProductList(product,commonQueryBean);
         }catch(Exception e){
-            log.info("==={}",e.getMessage());
+            log.info("商品列表查询发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
@@ -46,12 +46,14 @@ public class ProductController {
     //商品查询
     @RequestMapping(value = "/queryProduct", method = RequestMethod.POST)
     public ReturnMsg queryProduct(@RequestBody ProductVO productVO){
+        log.info("商品查询：{}"+productVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             Product product = new Product();
             BeanUtils.copyProperties(productVO,product);
             returnMsg = productService.queryProduct(product);
         }catch(Exception e){
+            log.info("商品查询发生异常：{}"+productVO);
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
@@ -66,7 +68,7 @@ public class ProductController {
             BeanUtils.copyProperties(productVO,product);
             returnMsg = productService.insertProduct(product);
         }catch(Exception e){
-            log.info("==={}",e.getMessage());
+            log.info("商品新增发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
 
@@ -75,9 +77,10 @@ public class ProductController {
     //商品修改
     @RequestMapping(value = "/modifyProduct", method = RequestMethod.POST)
     public ReturnMsg modifyProduct(@RequestBody ProductVO productVO){
+        log.info("商品修改：{}",productVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
-            log.info("商品修改：{}",productVO);
+
             Product product = new Product();
             BeanUtils.copyProperties(productVO,product);
             returnMsg = productService.modifyProduct(product);
@@ -90,12 +93,14 @@ public class ProductController {
     // 商品删除
     @RequestMapping(value = "/delProduct", method = RequestMethod.POST)
     public ReturnMsg delProduct(@RequestBody ProductVO productVO){
+        log.info("商品删除：{}",productVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             Product product = new Product();
             BeanUtils.copyProperties(productVO,product);
             returnMsg = productService.delProduct(product);
         }catch(Exception e){
+            log.info("商品删除发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;

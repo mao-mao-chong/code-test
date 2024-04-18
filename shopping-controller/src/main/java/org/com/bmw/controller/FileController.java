@@ -34,6 +34,7 @@ public class FileController {
 
     @RequestMapping(value ="/upload",method = RequestMethod.POST)
     public ReturnMsg uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        log.info("上传文件开始=========");
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         //上传文件的根路径
         String ROOT_PATH = uploadPath + File.separator + "files";
@@ -52,6 +53,7 @@ public class FileController {
         Map map = new HashMap();
         map.put("pictureUrl",url);
         returnMsg.setData(map);
+        log.info("上传文件结束========={}",returnMsg);
         return returnMsg;
     }
 

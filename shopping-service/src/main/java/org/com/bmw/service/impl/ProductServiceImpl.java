@@ -22,6 +22,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ReturnMsg queryProduct(Product product) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        AdminUser user = AdminUserUtil.getLoginUser();
+        product.setStoreId(user.getStoreId());
         Product productResult = productDao.queryProduct(product);
         returnMsg.setData(productResult);
         return returnMsg;
@@ -33,6 +35,8 @@ public class ProductServiceImpl implements ProductService {
         if(commonQueryBean!=null && commonQueryBean.getPageNum()!=null && commonQueryBean.getPageSize()!=null){
             commonQueryBean.setStart((commonQueryBean.getPageNum()-1)*commonQueryBean.getPageSize());
         }
+        AdminUser user = AdminUserUtil.getLoginUser();
+        product.setStoreId(user.getStoreId());
         List<Product> productResult = productDao.queryProductList(product,commonQueryBean);
         //查询总条数
         int count = productDao.count(product);
@@ -55,6 +59,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ReturnMsg modifyProduct(Product product) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        AdminUser user = AdminUserUtil.getLoginUser();
+        //查看是否本商户产品
+        product.setStoreId(user.getStoreId());
+        Product existProduct = productDao.queryProduct(product);
+        if(existProduct==null){
+            return new ReturnMsg(Constant.PRODUCT_NOT_EXIST.getCode(),Constant.PRODUCT_NOT_EXIST.getMessage());
+        }
         productDao.modifyProduct(product);
         return returnMsg;
     }
@@ -62,8 +73,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ReturnMsg delProduct(Product product) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        AdminUser user = AdminUserUtil.getLoginUser();
         Product productDel = new Product();
         productDel.setId(product.getId());
+        productDel.setStoreId(user.getStoreId());
+        Product existProduct = productDao.queryProduct(productDel);
+        if(existProduct==null){
+            return new ReturnMsg(Constant.PRODUCT_NOT_EXIST.getCode(),Constant.PRODUCT_NOT_EXIST.getMessage());
+        }
         productDel.setDelFlag(1);
         productDao.modifyProduct(productDel);
         return returnMsg;

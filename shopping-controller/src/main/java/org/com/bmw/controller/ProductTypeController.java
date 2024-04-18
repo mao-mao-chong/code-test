@@ -36,7 +36,7 @@ public class ProductTypeController {
             BeanUtils.copyProperties(productTypeVO,commonQueryBean);
             returnMsg = productTypeService.queryProductTypeList(productType,commonQueryBean);
         }catch(Exception e){
-            log.info("==={}",e.getMessage());
+            log.info("商品类型列表查询发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
@@ -51,7 +51,7 @@ public class ProductTypeController {
             BeanUtils.copyProperties(productTypeVO,productType);
             returnMsg = productTypeService.insertProductType(productType);
         }catch(Exception e){
-            log.info("==={}",e.getMessage());
+            log.info("商品类型新增发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
 
@@ -60,9 +60,9 @@ public class ProductTypeController {
     //商品类型修改
     @RequestMapping(value = "/modifyProductType", method = RequestMethod.POST)
     public ReturnMsg modifyProductType(@RequestBody ProductTypeVO productTypeVO){
+        log.info("商品类型修改：{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
-            log.info("商品类型修改：{}",productTypeVO);
             ProductType productType = new ProductType();
             BeanUtils.copyProperties(productTypeVO,productType);
             returnMsg = productTypeService.modifyProductType(productType);
@@ -75,12 +75,14 @@ public class ProductTypeController {
     // 商品类型删除
     @RequestMapping(value = "/delProductType", method = RequestMethod.POST)
     public ReturnMsg delProductType(@RequestBody ProductTypeVO productTypeVO){
+        log.info("商品类型删除：{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             ProductType productType = new ProductType();
             BeanUtils.copyProperties(productTypeVO,productType);
             returnMsg = productTypeService.delProductType(productType);
         }catch(Exception e){
+            log.info("商品类型删除发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
@@ -88,12 +90,14 @@ public class ProductTypeController {
     //商品类型查询
     @RequestMapping(value = "/queryProductType", method = RequestMethod.POST)
     public ReturnMsg queryProductType(@RequestBody ProductTypeVO productTypeVO){
+        log.info("商品类型查询：{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             ProductType productType = new ProductType();
             BeanUtils.copyProperties(productTypeVO,productType);
             returnMsg = productTypeService.queryProductType(productType);
         }catch(Exception e){
+            log.info("商品类型查询发生异常：{}",productTypeVO);
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;

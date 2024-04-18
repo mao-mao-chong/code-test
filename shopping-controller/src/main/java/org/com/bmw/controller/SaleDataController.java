@@ -38,7 +38,7 @@ public class SaleDataController {
             BeanUtils.copyProperties(saleDataVO,commonQueryBean);
             returnMsg = saleDataService.querySaleDataList(saleData,commonQueryBean);
         }catch(Exception e){
-            log.info("销售数据查询异常1：{}",e.getMessage());
+            log.info("销售数据查询异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;

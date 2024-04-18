@@ -29,6 +29,8 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
     @Override
     public ReturnMsg queryActivityEnroll(ActivityEnroll activityEnroll) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        AdminUser user = AdminUserUtil.getLoginUser();
+        activityEnroll.setStoreId(user.getStoreId());//确保查询本商户下报名的活动
         ActivityEnroll activityEnrollResult = activityEnrollDao.queryActivityEnroll(activityEnroll);
         returnMsg.setData(activityEnrollResult);
         return returnMsg;
@@ -40,6 +42,8 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         if(commonQueryBean!=null && commonQueryBean.getPageNum()!=null && commonQueryBean.getPageSize()!=null){
             commonQueryBean.setStart((commonQueryBean.getPageNum()-1)*commonQueryBean.getPageSize());
         }
+        AdminUser user = AdminUserUtil.getLoginUser();
+        activityEnroll.setStoreId(user.getStoreId());//确保查询本商户下报名的活动
         List<ActivityEnroll> list = activityEnrollDao.queryActivityEnrollList(activityEnroll,commonQueryBean);
         int count = activityEnrollDao.count(activityEnroll);
         commonQueryBean.setTotal(count);
@@ -71,6 +75,7 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         //产品信息获取
         Product product = new Product();
         product.setId(activityEnroll.getProductId());
+        product.setStoreId(user.getStoreId());
         product = productDao.queryProduct(product);
         if(product.getProductName()!=null){
             returnMsg = new ReturnMsg(Constant.PRODUCT_NOT_EXIST.getCode(),Constant.PRODUCT_NOT_EXIST.getMessage());
@@ -84,6 +89,12 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
     @Override
     public ReturnMsg cancelEnroll(ActivityEnroll activityEnroll) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        AdminUser user = AdminUserUtil.getLoginUser();
+        activityEnroll.setStoreId(user.getStoreId());
+        ActivityEnroll existActivityEnroll = activityEnrollDao.queryActivityEnroll(activityEnroll);
+        if(existActivityEnroll==null){
+            return new ReturnMsg(Constant.ACTIVITY_ENROLL_NOT_EXIST.getCode(),Constant.ACTIVITY_ENROLL_NOT_EXIST.getMessage());
+        }
         activityEnroll.setDelFlag(1);
         activityEnrollDao.modifyActivityEnroll(activityEnroll);
         return returnMsg;

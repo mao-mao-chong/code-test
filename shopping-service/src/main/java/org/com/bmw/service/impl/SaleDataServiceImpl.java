@@ -1,10 +1,12 @@
 package org.com.bmw.service.impl;
 
 import org.com.bmw.dao.SaleDataDao;
+import org.com.bmw.model.AdminUser;
 import org.com.bmw.model.Product;
 import org.com.bmw.model.ReturnMsg;
 import org.com.bmw.model.SaleData;
 import org.com.bmw.service.SaleDataService;
+import org.com.bmw.util.AdminUserUtil;
 import org.com.bmw.util.BusinessUtils;
 import org.com.bmw.util.CommonQueryBean;
 import org.com.bmw.util.Constant;
@@ -22,6 +24,8 @@ public class SaleDataServiceImpl implements SaleDataService {
         if(commonQueryBean!=null && commonQueryBean.getPageNum()!=null && commonQueryBean.getPageSize()!=null){
             commonQueryBean.setStart((commonQueryBean.getPageNum()-1)*commonQueryBean.getPageSize());
         }
+        AdminUser user = AdminUserUtil.getLoginUser();
+        saleData.setStoreId(user.getStoreId());
         List<SaleData> saleDataResult = saleDataDao.querySaleDataList(saleData,commonQueryBean);
         //查询总条数
         int count = saleDataDao.count(saleData);

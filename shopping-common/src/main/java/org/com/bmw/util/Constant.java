@@ -20,8 +20,11 @@ public enum Constant {
     STORE_EXIST("-9992","商户已存在"),
 
     //活动报名
-    ACTIVITY_NOT_EXIST("-9991","报名失败，活动不存在"),
-    PRODUCT_NOT_EXIST("-9990","报名失败，商品不存在");
+    ACTIVITY_NOT_EXIST("-9991","活动不存在"),
+    PRODUCT_NOT_EXIST("-9990","商品不存在"),
+
+    ACTIVITY_ENROLL_NOT_EXIST("-8999","报名的活动不存在");
+
     private String code;
     private String message;
 

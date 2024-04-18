@@ -25,13 +25,14 @@ public class ActivityController {
     //活动新增
     @RequestMapping(value = "/addActivity", method = RequestMethod.POST)
     public ReturnMsg addActivity(@RequestBody ActivityVO activityVO){
+        log.info("活动新增：{}",activityVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             Activity activity = new Activity();
             BeanUtils.copyProperties(activityVO,activity);
             returnMsg = activityService.insertActivity(activity);
         }catch(Exception e){
-            log.info("==={}",e.getMessage());
+            log.info("活动新增发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
 
@@ -40,6 +41,7 @@ public class ActivityController {
     // 活动修改
     @RequestMapping(value = "/modifyActivity", method = RequestMethod.POST)
     public ReturnMsg modifyActivity(@RequestBody ActivityVO activityVO){
+        log.info("活动修改：{}",activityVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             log.info("活动信息修改：{}",activityVO);
@@ -55,12 +57,14 @@ public class ActivityController {
     // 活动删除
     @RequestMapping(value = "/delActivity", method = RequestMethod.POST)
     public ReturnMsg delActivity(@RequestBody ActivityVO activityVO){
+        log.info("活动删除：{}",activityVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             Activity activity = new Activity();
             BeanUtils.copyProperties(activityVO,activity);
             returnMsg = activityService.delActivity(activity);
         }catch(Exception e){
+            log.info("活动删除发生异常：{}",activityVO);
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
@@ -68,12 +72,14 @@ public class ActivityController {
     // 单个活动查询
     @RequestMapping(value = "/queryActivity", method = RequestMethod.POST)
     public ReturnMsg queryActivity(@RequestBody ActivityVO activityVO){
+        log.info("单个活动查询：{}",activityVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             Activity activity = new Activity();
             BeanUtils.copyProperties(activityVO,activity);
             returnMsg = activityService.queryActivity(activity);
         }catch(Exception e){
+            log.info("单个活动查询发生异常：{}",activityVO);
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
@@ -81,7 +87,7 @@ public class ActivityController {
     // 活动列表查询
     @RequestMapping(value = "/queryActivityList", method = RequestMethod.POST)
     public ReturnMsg queryActivityList(@RequestBody ActivityVO activityVO){
-        log.info("activity="+activityVO);
+        log.info("活动列表查询：{}",activityVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
             Activity activity = new Activity();
@@ -90,7 +96,7 @@ public class ActivityController {
             BeanUtils.copyProperties(activityVO,commonQueryBean);
             returnMsg = activityService.queryActivityList(activity,commonQueryBean);
         }catch(Exception e){
-            log.info("==={}",e.getMessage());
+            log.info("活动列表查询发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
         }
         return returnMsg;
