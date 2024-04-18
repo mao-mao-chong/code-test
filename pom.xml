@@ -120,15 +120,7 @@
             <version>0.9.1</version>
         </dependency>
     </dependencies>
-    <!--打包！-->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -28,4 +28,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.com.bmw.Main</mainClass>
+                    <finalName>shop-back</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
