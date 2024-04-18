@@ -56,6 +56,10 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         Activity activity = new Activity();
         activity.setId(activityEnroll.getActivityId());
         activity = activityDao.queryActivity(activity);
+        if(activity.getActivityName()!=null){
+            returnMsg = new ReturnMsg(Constant.ACTIVITY_NOT_EXIST.getCode(),Constant.ACTIVITY_NOT_EXIST.getMessage());
+            return returnMsg;
+        }
         activityEnroll.setActivityName(activity.getActivityName());
         //店铺信息获取
         AdminUser user = AdminUserUtil.getLoginUser();
@@ -68,6 +72,10 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         Product product = new Product();
         product.setId(activityEnroll.getProductId());
         product = productDao.queryProduct(product);
+        if(product.getProductName()!=null){
+            returnMsg = new ReturnMsg(Constant.PRODUCT_NOT_EXIST.getCode(),Constant.PRODUCT_NOT_EXIST.getMessage());
+            return returnMsg;
+        }
         activityEnroll.setProductName(product.getProductName());
         activityEnrollDao.insertActivityEnroll(activityEnroll);
         return returnMsg;

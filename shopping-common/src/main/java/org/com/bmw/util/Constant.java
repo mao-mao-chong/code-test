@@ -17,7 +17,11 @@ public enum Constant {
 
     //注册错误码
     USER_EXIST("-9993","用户已存在"),
-    STORE_EXIST("-9992","商户已存在");
+    STORE_EXIST("-9992","商户已存在"),
+
+    //活动报名
+    ACTIVITY_NOT_EXIST("-9991","报名失败，活动不存在"),
+    PRODUCT_NOT_EXIST("-9990","报名失败，商品不存在");
     private String code;
     private String message;
 
