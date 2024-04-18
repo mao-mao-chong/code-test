@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.bmw.dao.ProductTypeDao">
+    <resultMap id="ProductType" type="org.com.bmw.model.ProductType" >
+        <result column="id" property="id"/>
+        <result column="product_type_name" property="productTypeName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+    <select id="queryProductType" resultMap="ProductType">
+        select * from t_product_type
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="productTypeName != null">
+            and product_type_name like concat('%',#{productTypeName},'%')
+        </if>
+        and del_flag=0
+    </select>
+    <select id="queryProductTypeList" resultMap="ProductType">
+        select * from t_product_type
+        where 1=1
+        <if test="productType.id != null">
+            and id=#{productType.id}
+        </if>
+        <if test="productType.productTypeName != null">
+            and product_type_name like concat('%',#{productType.productTypeName},'%')
+        </if>
+        and del_flag=0
+        <if test="commonQueryBean.start != null and commonQueryBean.pageSize !=null">
+            limit #{commonQueryBean.start},#{commonQueryBean.pageSize}
+        </if>
+    </select>
+    <update id="modifyProductType">
+        update t_product_type
+        <set>
+            <if test="productTypeName != null">
+                product_type_name = #{productTypeName},
+            </if>
+            <if test="delFlag != null">
+                del_flag =#{delFlag},
+            </if>
+            update_time=sysdate()
+        </set>
+        where id=#{id}
+    </update>
+    <insert id="insertProductType" useGeneratedKeys="true" keyProperty="id">
+        insert into t_product_type(product_type_name,create_time,update_time,del_flag)
+        values (
+                   #{productTypeName},
+                   sysdate(),
+                   sysdate(),
+                   0
+               )
+    </insert>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from t_product_type
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="productTypeName != null">
+            and product_type_name like concat('%',#{productTypeName},'%')
+        </if>
+        and del_flag=0
+    </select>
+</mapper>

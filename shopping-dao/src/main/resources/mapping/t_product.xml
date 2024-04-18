@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.bmw.dao.ProductDao">
+    <resultMap id="Product" type="org.com.bmw.model.Product" >
+        <result column="id" property="id"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_inventory" property="productInventory"/>
+        <result column="product_price" property="productPrice"/>
+        <result column="picture_url" property="pictureUrl"/>
+        <result column="product_introduce" property="productIntroduce"/>
+        <result column="store_id" property="storeId"/>
+        <result column="product_type_id" property="productTypeId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+    <select id="queryProduct" resultMap="Product">
+        select * from t_product
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="productName != null">
+            and product_name like concat('%',#{productName},'%')
+        </if>
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+        <if test="productTypeId != null">
+            and product_type_id =#{productTypeId}
+        </if>
+        and del_flag=0
+    </select>
+    <select id="queryProductList" resultMap="Product">
+        select * from t_product
+        where 1=1
+        <if test="product.id != null">
+            and id=#{product.id}
+        </if>
+        <if test="product.productName != null">
+            and product_name like concat('%',#{product.productName},'%')
+        </if>
+
+        <if test="product.storeId != null">
+            and store_id = #{product.storeId}
+        </if>
+        <if test="product.productTypeId != null">
+            and product_type_id =#{product.productTypeId}
+        </if>
+        and del_flag=0
+        <if test="commonQueryBean.start != null and commonQueryBean.pageSize !=null">
+            limit #{commonQueryBean.start},#{commonQueryBean.pageSize}
+        </if>
+    </select>
+    <update id="modifyProduct">
+        update t_product
+        <set>
+            <if test="productName != null">
+                product_name = #{productName},
+            </if>
+            <if test="productPrice != null">
+                product_price=#{productPrice},
+            </if>
+            <if test="productInventory != null">
+                product_inventory =#{productInventory},
+            </if>
+
+            <if test="pictureUrl != null">
+                picture_url =#{pictureUrl},
+            </if>
+            <if test="productIntroduce != null">
+                product_introduce =#{productIntroduce},
+            </if>
+            <if test="storeId != null">
+                store_id =#{storeId},
+            </if>
+            <if test="productTypeId != null">
+                product_type_id =#{productTypeId},
+            </if>
+            <if test="delFlag != null">
+                del_flag =#{delFlag},
+            </if>
+            update_time=sysdate()
+        </set>
+        where id=#{id}
+    </update>
+    <insert id="insertProduct" useGeneratedKeys="true" keyProperty="id">
+        insert into t_product(product_name,product_price,product_inventory,picture_url,product_introduce,store_id,product_type_id,create_time,update_time,del_flag)
+        values (
+                   #{productName},
+                   #{productPrice},
+                   #{productInventory},
+                   #{pictureUrl},
+                   #{productIntroduce},
+                   #{storeId},
+                   #{productTypeId},
+                   sysdate(),
+                   sysdate(),
+                   0
+               )
+    </insert>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from t_product
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="productName != null">
+            and product_name like concat('%',#{productName},'%')
+        </if>
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+        <if test="productTypeId != null">
+            and product_type_id =#{productTypeId}
+        </if>
+        and del_flag=0
+    </select>
+</mapper>

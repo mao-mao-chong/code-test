@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.bmw.dao.UserDao">
+    <resultMap id="User" type="org.com.bmw.model.User" >
+        <result column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="store_id" property="storeId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+    <select id="selectUserByPrimaryKey" resultMap="User">
+        select * from t_user where 1=1
+        and id=#{id}
+    </select>
+    <select id="selectUser" resultMap="User">
+        select * from t_user where 1=1
+        <if test="userName != null">
+            and user_name=#{userName}
+        </if>
+        and del_flag=0
+
+    </select>
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user(user_name,password,store_id,create_time,update_time,del_flag)
+        values (
+            #{userName},
+            #{password},
+            #{storeId},
+            SYSDATE(),
+            SYSDATE(),
+            0
+        )
+    </insert>
+</mapper>

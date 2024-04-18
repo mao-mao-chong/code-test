@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.bmw.dao.PermissionDao">
+    <resultMap id="Permission" type="org.com.bmw.model.Permission" >
+        <result column="id" property="id"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_url" property="permissionUrl"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="permission_code" property="permissionCode"/>
+        <result column="parent_code" property="parentCode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="selectPermissionByUserId" resultMap="Permission">
+        select p.* from t_user_role ur,t_role_permission rp,t_permission p
+        where ur.role_id=rp.role_id and rp.permission_id=p.id
+        and ur.user_id=#{id}
+        and ur.del_flag=0
+        and rp.del_flag=0
+        and p.del_flag=0
+    </select>
+
+</mapper>

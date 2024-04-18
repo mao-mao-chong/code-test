@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.bmw.dao.ActivityDao">
+    <resultMap id="Activity" type="org.com.bmw.model.Activity" >
+        <result column="id" property="id"/>
+        <result column="activity_name" property="activityName"/>
+        <result column="activity_start_time" property="activityStartTime"/>
+        <result column="activity_end_time" property="activityEndTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+    <select id="queryActivity" resultMap="Activity">
+        select * from t_activity
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="activityName != null">
+            and activity_name like concat('%',#{activityName},'%')
+        </if>
+        <if test="activityStartTime != null and activityEndTime!=null">
+            and activity_start_time>=#{activityStartTime}
+            and activity_end_time &lt;=#{activityEndTime}
+        </if>
+        and del_flag=0
+    </select>
+    <select id="queryActivityList" resultMap="Activity">
+        select * from t_activity
+        where 1=1
+        <if test="activity.id != null">
+            and id=#{activity.id}
+        </if>
+        <if test="activity.activityName != null">
+            and activity_name like concat('%',#{activity.activityName},'%')
+        </if>
+        <if test="activity.activityStartTime != null and activity.activityEndTime!=null">
+            and activity_start_time>=#{activity.activityStartTime}
+            and activity_end_time &lt;=#{activity.activityEndTime}
+        </if>
+        and del_flag=0
+        <if test="commonQueryBean.start != null and commonQueryBean.pageSize !=null">
+            limit #{commonQueryBean.start},#{commonQueryBean.pageSize}
+        </if>
+    </select>
+    <update id="modifyActivity">
+        update t_activity
+        <set>
+            <if test="activityName != null">
+                activity_name = #{activityName},
+            </if>
+            <if test="activityStartTime != null">
+                 activity_start_time=#{activityStartTime},
+            </if>
+            <if test="activityEndTime != null">
+                 activity_end_time =#{activityEndTime},
+            </if>
+            <if test="delFlag != null">
+                del_flag =#{delFlag},
+            </if>
+            update_time=sysdate()
+        </set>
+        where id=#{id}
+    </update>
+    <insert id="insertActivity" useGeneratedKeys="true" keyProperty="id">
+        insert into t_activity(activity_name,activity_start_time,activity_end_time,create_time,update_time,del_flag)
+        values (
+                #{activityName},
+                #{activityStartTime},
+                #{activityEndTime},
+                sysdate(),
+                sysdate(),
+                0
+               )
+    </insert>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from t_activity
+        where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="activityName != null">
+            and activity_name like concat('%',#{activityName},'%')
+        </if>
+        <if test="activityStartTime != null and activityEndTime!=null">
+            and activity_start_time>=#{activityStartTime}
+            and activity_end_time &lt;=#{activityEndTime}
+        </if>
+        and del_flag=0
+    </select>
+</mapper>
