@@ -15,5 +15,5 @@ public interface SaleDataDao {
 
     int count(SaleData saleData);
 
-    int insertSaleData(SaleData saleData);
+    int insertSaleDataBatch(List<SaleData> list);
 }

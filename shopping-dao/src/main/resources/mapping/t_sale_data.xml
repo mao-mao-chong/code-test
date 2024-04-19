@@ -59,17 +59,20 @@
         and del_flag=0
 
     </select>
-    <insert id="insertSaleData" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSaleDataBatch" useGeneratedKeys="true" keyProperty="id">
         insert into t_sale_data(store_id,product_id,product_name,sale_amount,sale_date,create_time,update_time,del_flag)
-        values (
-                   #{storeId},
-                   #{productId},
-                   #{productName},
-                   #{saleAmount},
-                   #{saleDate},
-                   sysdate(),
-                   sysdate(),
-                   0
-               )
+        values
+        <foreach collection ="list" item="saleData" separator =",">
+            (
+                #{saleData.storeId},
+                #{saleData.productId},
+                #{saleData.productName},
+                #{saleData.saleAmount},
+                #{saleData.saleDate},
+                sysdate(),
+                sysdate(),
+                0
+            )
+        </foreach>
     </insert>
 </mapper>

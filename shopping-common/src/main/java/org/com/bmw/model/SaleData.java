@@ -56,6 +56,14 @@ public class SaleData extends BaseModel{
         this.saleAmount = saleAmount;
     }
 
+    public Date getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(Date saleDate) {
+        this.saleDate = saleDate;
+    }
+
     public Date getSaleDateStart() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {

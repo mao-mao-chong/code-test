@@ -20,6 +20,6 @@ public interface SaleDataService {
     /**
      * 销售数据新增
      */
-    ReturnMsg insertSaleData(SaleData saleData);
+    void insertSaleData();
 
 }
