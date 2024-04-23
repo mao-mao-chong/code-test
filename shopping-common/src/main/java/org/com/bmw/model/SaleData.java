@@ -1,5 +1,6 @@
 package org.com.bmw.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class SaleData extends BaseModel{
     //销售金额
     private BigDecimal saleAmount;
     //销售时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date saleDate;
     //非数据库维护字段
     private Date saleDateStart;

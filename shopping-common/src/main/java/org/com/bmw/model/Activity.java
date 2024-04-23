@@ -1,5 +1,6 @@
 package org.com.bmw.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -9,10 +10,13 @@ import java.util.Date;
 
 public class Activity extends BaseModel {
     //活动名称
+
     private String activityName;
     //活动开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date activityStartTime;
     //活动结束时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date activityEndTime;
     //非数据库维护字段
     //活动开始时间
