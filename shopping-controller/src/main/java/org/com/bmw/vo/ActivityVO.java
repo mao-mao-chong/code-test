@@ -3,6 +3,7 @@ package org.com.bmw.vo;
 import org.apache.commons.lang3.StringUtils;
 import org.com.bmw.model.BaseModel;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 public class ActivityVO extends BaseVO implements Serializable {
     //活动名称
+    @NotNull(message="activityName不能为空")
     private String activityName;
     //活动开始时间
     private Date activityStartTime;
@@ -17,8 +19,10 @@ public class ActivityVO extends BaseVO implements Serializable {
     private Date activityEndTime;
     //非数据库维护字段
     //活动开始时间
+    @NotNull(message="activityStartTime")
     private String activityStartTimeString;
     //活动结束时间
+    @NotNull(message="activityEndTime")
     private String activityEndTimeString;
     public Date getActivityStartTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

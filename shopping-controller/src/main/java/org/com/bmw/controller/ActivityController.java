@@ -10,6 +10,7 @@ import org.com.bmw.util.RedisUtil;
 import org.com.bmw.vo.ActivityVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ActivityController {
 
     //活动新增
     @RequestMapping(value = "/addActivity", method = RequestMethod.POST)
-    public ReturnMsg addActivity(@RequestBody ActivityVO activityVO){
+    public ReturnMsg addActivity(@Validated  @RequestBody ActivityVO activityVO){
         log.info("活动新增：{}",activityVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         try {
