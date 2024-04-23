@@ -7,12 +7,27 @@
         <result column="activity_name" property="activityName"/>
         <result column="activity_start_time" property="activityStartTime"/>
         <result column="activity_end_time" property="activityEndTime"/>
+        <result column="activityStartTimeString" property="activityStartTimeString"/>
+        <result column="activityEndTimeString" property="activityEndTimeString"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="del_flag" property="delFlag"/>
     </resultMap>
+    <sql id="queryColumns">
+        id,
+        activity_name,
+        activity_start_time,
+        activity_end_time,
+        DATE_FORMAT(activity_start_time,'%Y-%m-%d %H:%i:%s') as activityStartTimeString,
+        DATE_FORMAT(activity_end_time,'%Y-%m-%d %H:%i:%s') as activityEndTimeString,
+        create_time,
+        update_time,
+        del_flag
+    </sql>
     <select id="queryActivity" resultMap="Activity">
-        select * from t_activity
+        select
+        <include refid="queryColumns"></include>
+        from t_activity
         where 1=1
         <if test="id != null">
             and id=#{id}
@@ -27,7 +42,7 @@
         and del_flag=0
     </select>
     <select id="queryActivityList" resultMap="Activity">
-        select * from t_activity
+        select <include refid="queryColumns"></include> from t_activity
         where 1=1
         <if test="activity.id != null">
             and id=#{activity.id}

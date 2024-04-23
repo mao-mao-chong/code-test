@@ -3,6 +3,7 @@ package org.com.bmw.vo;
 import org.apache.commons.lang3.StringUtils;
 import org.com.bmw.model.BaseModel;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
