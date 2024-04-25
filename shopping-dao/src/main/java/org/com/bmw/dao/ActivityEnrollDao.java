@@ -1,7 +1,6 @@
 package org.com.bmw.dao;
 
 import io.lettuce.core.dynamic.annotation.Param;
-import org.com.bmw.model.Activity;
 import org.com.bmw.model.ActivityEnroll;
 import org.com.bmw.util.CommonQueryBean;
 import org.springframework.stereotype.Repository;
@@ -34,4 +33,8 @@ public interface ActivityEnrollDao {
     int modifyActivityEnroll(ActivityEnroll activityEnroll);
 
     int count(ActivityEnroll activityEnroll);
+
+    List<ActivityEnroll> queryActivityEnrollListExample(ActivityEnroll activityEnroll);
+    List<ActivityEnroll> queryActivityEnrollListFen(ActivityEnroll activityEnroll);
+
 }

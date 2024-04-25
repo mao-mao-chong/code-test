@@ -87,4 +87,59 @@ public class ActivityEnrollController {
 
         return returnMsg;
     }
+
+    // 报名活动列表查询
+    @RequestMapping(value = "/queryActivityEnrollListForExampleJoin", method = RequestMethod.POST)
+    public ReturnMsg queryActivityEnrollListForExampleJoin(@RequestBody ActivityEnrollVO activityEnrollVO){
+        log.info("报名活动列表查询:{}",activityEnrollVO);
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        try{
+            ActivityEnroll activityEnroll = new ActivityEnroll();
+            CommonQueryBean commonQueryBean = new CommonQueryBean();
+            BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
+            BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
+            returnMsg = activityEnrollService.queryActivityEnrollListForExampleJoin();
+        }catch(Exception e){
+            log.info("报名活动列表查询发生异常：{}",e.getMessage());
+            returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
+        }
+
+        return returnMsg;
+    }
+    // 报名活动列表查询
+    @RequestMapping(value = "/queryActivityEnrollListForExampleFen", method = RequestMethod.POST)
+    public ReturnMsg queryActivityEnrollListForExampleFen(@RequestBody ActivityEnrollVO activityEnrollVO){
+        log.info("报名活动列表查询:{}",activityEnrollVO);
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+
+            ActivityEnroll activityEnroll = new ActivityEnroll();
+            CommonQueryBean commonQueryBean = new CommonQueryBean();
+            BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
+            BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
+            returnMsg = activityEnrollService.queryActivityEnrollListForExampleFen();
+
+//            log.info("报名活动列表查询发生异常：{}",e.getMessage());
+//            returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
+//
+
+        return returnMsg;
+    }
+    // 报名活动列表查询
+    @RequestMapping(value = "/queryActivityEnrollListForExampleMore", method = RequestMethod.POST)
+    public ReturnMsg queryActivityEnrollListForExampleMore(@RequestBody ActivityEnrollVO activityEnrollVO){
+        log.info("报名活动列表查询:{}",activityEnrollVO);
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        try{
+            ActivityEnroll activityEnroll = new ActivityEnroll();
+            CommonQueryBean commonQueryBean = new CommonQueryBean();
+            BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
+            BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
+            returnMsg = activityEnrollService.queryActivityEnrollListForExampleMore();
+        }catch(Exception e){
+            log.info("报名活动列表查询发生异常：{}",e.getMessage());
+            returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
+        }
+
+        return returnMsg;
+    }
 }

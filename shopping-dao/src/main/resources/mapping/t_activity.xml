@@ -105,4 +105,9 @@
         </if>
         and del_flag=0
     </select>
+    <select id="queryAllActivity" resultType="java.util.Map">
+        select * from t_activity
+        where 1=1
+        and del_flag=0
+    </select>
 </mapper>

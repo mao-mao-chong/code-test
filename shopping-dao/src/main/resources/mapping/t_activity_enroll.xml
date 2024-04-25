@@ -123,4 +123,29 @@
         </if>
         and del_flag=0
     </select>
+    <select id="queryActivityEnrollListExample" resultMap="ActivityEnroll">
+         select ae.id,ae.activity_id,a.activity_name,ae.product_id,p.product_name,s.store_name,ae.product_inventory,ae.product_price from t_activity_enroll_example ae
+         left join t_activity a on ae.activity_id=a.id
+         left join t_product p on ae.product_id=p.id
+         left join t_store s on p.store_id=s.id
+         where 1=1
+
+        <if test="storeId != null">
+            and ae.store_id=#{storeId}
+        </if>
+        and ae.del_flag=0
+        and a.del_flag=0
+        and p.del_flag=0
+        and s.del_flag=0
+
+    </select>
+    <select id="queryActivityEnrollListFen" resultMap="ActivityEnroll">
+        select id,activity_id,activity_name,product_id,product_name,store_name,product_inventory,product_price from t_activity_enroll_example
+        where 1=1
+        <if test="storeId != null">
+            and store_id=#{storeId}
+        </if>
+        and del_flag=0
+
+    </select>
 </mapper>

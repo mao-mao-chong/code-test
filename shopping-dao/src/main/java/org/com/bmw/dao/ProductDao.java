@@ -1,12 +1,14 @@
 package org.com.bmw.dao;
 
 import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.MapKey;
 import org.com.bmw.model.Activity;
 import org.com.bmw.model.Product;
 import org.com.bmw.util.CommonQueryBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface ProductDao {
@@ -35,4 +37,7 @@ public interface ProductDao {
     int modifyProduct(Product product);
 
     int count(Product product);
+    @MapKey("id")
+    Map<Long,Product> queryAllProductByStoreId(Long storeId);
+
 }

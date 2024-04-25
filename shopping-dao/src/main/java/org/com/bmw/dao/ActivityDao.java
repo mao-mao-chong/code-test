@@ -1,6 +1,7 @@
 package org.com.bmw.dao;
 
 import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.MapKey;
 import org.com.bmw.model.Activity;
 import org.com.bmw.model.ActivityEnroll;
 import org.com.bmw.model.ReturnMsg;
@@ -8,6 +9,7 @@ import org.com.bmw.util.CommonQueryBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface ActivityDao {
@@ -36,4 +38,6 @@ public interface ActivityDao {
     int modifyActivity(Activity activity);
 
     int count(Activity activity);
+    @MapKey("id")
+    Map<Long,Activity> queryAllActivity();
 }

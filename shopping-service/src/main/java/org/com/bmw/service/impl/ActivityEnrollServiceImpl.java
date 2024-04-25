@@ -1,5 +1,6 @@
 package org.com.bmw.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.com.bmw.dao.ActivityDao;
 import org.com.bmw.dao.ActivityEnrollDao;
 import org.com.bmw.dao.ProductDao;
@@ -13,10 +14,14 @@ import org.com.bmw.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
+@Slf4j
 public class ActivityEnrollServiceImpl implements ActivityEnrollService {
     @Autowired
     ActivityEnrollDao activityEnrollDao;
@@ -52,6 +57,15 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         returnMsg.setCommonQueryBean(commonQueryBean);
         return returnMsg;
     }
+
+    /**
+     *      * 活动报名表只保存了产品id、活动id，其他数据通过其他表关联查询
+     *      *根据活动id,产品id查询产品信息，活动信息，店铺信息
+     *      * @param activityEnroll
+     *      * @param commonQueryBean
+     *      * @return
+     */
+
 
     @Override
     public ReturnMsg enroll(ActivityEnroll activityEnroll) {
@@ -97,6 +111,85 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         }
         activityEnroll.setDelFlag(1);
         activityEnrollDao.modifyActivityEnroll(activityEnroll);
+        return returnMsg;
+    }
+
+
+
+
+    @Override
+    public ReturnMsg queryActivityEnrollListForExampleJoin() {
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+
+        AdminUser user = AdminUserUtil.getLoginUser();
+        /**
+         *  1.大sql联查
+         */
+        ActivityEnroll activityEnroll = new ActivityEnroll();
+        activityEnroll.setStoreId(user.getStoreId());
+        log.info("查询入参：{}",activityEnroll);
+        long joinStart = System.currentTimeMillis();
+        List<ActivityEnroll> joinList = activityEnrollDao.queryActivityEnrollListExample(activityEnroll);
+        long joinEnd = System.currentTimeMillis();
+        log.info("多表联查---总耗时：{}",joinEnd-joinStart);
+        log.info("活动查询总数据：{}",joinList.size());
+
+        returnMsg.setData("多表联查总耗时="+(joinEnd-joinStart));
+        return returnMsg;
+    }
+    @Override
+    public ReturnMsg queryActivityEnrollListForExampleFen() {
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        AdminUser user = AdminUserUtil.getLoginUser();
+        ActivityEnroll activityEnroll = new ActivityEnroll();
+        activityEnroll.setStoreId(user.getStoreId());
+        /**
+         * 2.分表查询
+         */
+        long fenStart = System.currentTimeMillis();
+        //获取店铺信息
+        Store store = new Store();
+        store.setId(user.getStoreId());
+        store = storeDao.selectExistStore(store);
+        //获取产品信息
+        Map<Long,Product> productMap = productDao.queryAllProductByStoreId(user.getStoreId());
+        //获取活动信息
+        Map<Long,Activity> activityMap = activityDao.queryAllActivity();
+        //查询报名活动并组装
+        List<ActivityEnroll> fenList = activityEnrollDao.queryActivityEnrollListFen(activityEnroll);
+        if(!CollectionUtils.isEmpty(fenList)){
+            for(ActivityEnroll activityEnroll1 : fenList){
+                activityEnroll1.setStoreName(store.getStoreName());
+                activityEnroll.setProductName(productMap.get(activityEnroll1.getProductId()).getProductName());
+                activityEnroll1.setActivityName(activityMap.get(activityEnroll1.getActivityId()).getActivityName());
+            }
+        }
+        long fenEnd = System.currentTimeMillis();
+        log.info("分表查询信息---总耗时：{}",fenEnd-fenStart);
+        log.info("活动查询总数据：{}",fenList.size());
+
+        returnMsg.setData("分表查询信息总耗时="+(fenEnd-fenStart));
+        return returnMsg;
+    }
+    @Override
+    public ReturnMsg queryActivityEnrollListForExampleMore() {
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+
+        AdminUser user = AdminUserUtil.getLoginUser();
+        /**
+         * 冗余字段设计
+         */
+
+        ActivityEnroll activityEnroll = new ActivityEnroll();
+        activityEnroll.setStoreId(user.getStoreId());//确保查询本商户下报名的活动
+        long moreStart = System.currentTimeMillis();
+        List<ActivityEnroll> list = activityEnrollDao.queryActivityEnrollListFen(activityEnroll);
+        long moreEnd = System.currentTimeMillis();
+        log.info("冗余字段设计---总耗时：{}",moreEnd-moreStart);
+        int count = activityEnrollDao.count(activityEnroll);
+        returnMsg.setData("冗余字段设计总耗时="+(moreEnd-moreStart));
+        log.info("活动查询总数据：{}",list.size());
+
         return returnMsg;
     }
 

@@ -1,6 +1,5 @@
 package org.com.bmw.service;
 
-import org.com.bmw.model.Activity;
 import org.com.bmw.model.ActivityEnroll;
 import org.com.bmw.model.ReturnMsg;
 import org.com.bmw.util.CommonQueryBean;
@@ -33,4 +32,10 @@ public interface ActivityEnrollService {
      * @return
      */
     ReturnMsg cancelEnroll(ActivityEnroll activityEnroll);
+
+    ReturnMsg queryActivityEnrollListForExampleJoin();
+
+    ReturnMsg queryActivityEnrollListForExampleFen();
+
+    ReturnMsg queryActivityEnrollListForExampleMore();
 }
