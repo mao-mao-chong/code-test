@@ -152,11 +152,20 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         store.setId(user.getStoreId());
         store = storeDao.selectExistStore(store);
         //获取产品信息
+        long proStart = System.currentTimeMillis();
         Map<Long,Product> productMap = productDao.queryAllProductByStoreId(user.getStoreId());
+        long proEnd = System.currentTimeMillis();
+        log.info("query product use:{}",(proEnd-proStart));
         //获取活动信息
+        long acStart = System.currentTimeMillis();
         Map<Long,Activity> activityMap = activityDao.queryAllActivity();
+        long acEnd = System.currentTimeMillis();
+        log.info("query activity use:{}",(acEnd-acStart));
         //查询报名活动并组装
+        long enStart = System.currentTimeMillis();
         List<ActivityEnroll> fenList = activityEnrollDao.queryActivityEnrollListFen(activityEnroll);
+        long enEnd = System.currentTimeMillis();
+        log.info("query activity use:{}",(enEnd-enStart));
         if(!CollectionUtils.isEmpty(fenList)){
             for(ActivityEnroll activityEnroll1 : fenList){
                 activityEnroll1.setStoreName(store.getStoreName());
