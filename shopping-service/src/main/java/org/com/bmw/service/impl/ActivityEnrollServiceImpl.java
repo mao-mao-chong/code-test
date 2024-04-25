@@ -160,8 +160,12 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         if(!CollectionUtils.isEmpty(fenList)){
             for(ActivityEnroll activityEnroll1 : fenList){
                 activityEnroll1.setStoreName(store.getStoreName());
-                activityEnroll.setProductName(productMap.get(activityEnroll1.getProductId()).getProductName());
-                activityEnroll1.setActivityName(activityMap.get(activityEnroll1.getActivityId()).getActivityName());
+                if(productMap.get(activityEnroll1.getProductId())!=null){
+                    activityEnroll.setProductName(productMap.get(activityEnroll1.getProductId()).getProductName());
+                }
+                if(activityMap.get(activityEnroll1.getActivityId())!=null){
+                    activityEnroll1.setActivityName(activityMap.get(activityEnroll1.getActivityId()).getActivityName());
+                }
             }
         }
         long fenEnd = System.currentTimeMillis();
