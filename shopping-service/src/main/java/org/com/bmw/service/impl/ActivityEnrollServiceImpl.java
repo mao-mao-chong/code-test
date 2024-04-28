@@ -118,14 +118,13 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
 
 
     @Override
-    public ReturnMsg queryActivityEnrollListForExampleJoin() {
+    public ReturnMsg queryActivityEnrollListForExampleJoin(ActivityEnroll activityEnroll) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
 
         AdminUser user = AdminUserUtil.getLoginUser();
         /**
          *  1.大sql联查
          */
-        ActivityEnroll activityEnroll = new ActivityEnroll();
         activityEnroll.setStoreId(user.getStoreId());
         log.info("查询入参：{}",activityEnroll);
         long joinStart = System.currentTimeMillis();
@@ -138,14 +137,11 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         return returnMsg;
     }
     @Override
-    public ReturnMsg queryActivityEnrollListForExampleFen() {
+    public ReturnMsg queryActivityEnrollListForExampleFen(ActivityEnroll activityEnroll) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
         AdminUser user = AdminUserUtil.getLoginUser();
-        ActivityEnroll activityEnroll = new ActivityEnroll();
         activityEnroll.setStoreId(user.getStoreId());
-        /**
-         * 2.分表查询
-         */
+        //2.分表查询
         long fenStart = System.currentTimeMillis();
         //获取店铺信息
         Store store = new Store();
@@ -153,12 +149,17 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         store = storeDao.selectExistStore(store);
         //获取产品信息
         long proStart = System.currentTimeMillis();
-        Map<Long,Product> productMap = productDao.queryAllProductByStoreId(user.getStoreId());
+        Product product = new Product();
+        product.setStoreId(user.getStoreId());
+        product.setId(activityEnroll.getProductId());
+        product = productDao.queryProduct(product);
         long proEnd = System.currentTimeMillis();
         log.info("query product use:{}",(proEnd-proStart));
         //获取活动信息
         long acStart = System.currentTimeMillis();
-        Map<Long,Activity> activityMap = activityDao.queryAllActivity();
+        Activity activity = new Activity();
+        activity.setId(activityEnroll.getActivityId());
+        activity = activityDao.queryActivity(activity);
         long acEnd = System.currentTimeMillis();
         log.info("query activity use:{}",(acEnd-acStart));
         //查询报名活动并组装
@@ -166,17 +167,6 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         List<ActivityEnroll> fenList = activityEnrollDao.queryActivityEnrollListFen(activityEnroll);
         long enEnd = System.currentTimeMillis();
         log.info("query activity use:{}",(enEnd-enStart));
-        if(!CollectionUtils.isEmpty(fenList)){
-            for(ActivityEnroll activityEnroll1 : fenList){
-                activityEnroll1.setStoreName(store.getStoreName());
-                if(productMap.get(activityEnroll1.getProductId())!=null){
-                    activityEnroll.setProductName(productMap.get(activityEnroll1.getProductId()).getProductName());
-                }
-                if(activityMap.get(activityEnroll1.getActivityId())!=null){
-                    activityEnroll1.setActivityName(activityMap.get(activityEnroll1.getActivityId()).getActivityName());
-                }
-            }
-        }
         long fenEnd = System.currentTimeMillis();
         log.info("分表查询信息---总耗时：{}",fenEnd-fenStart);
         log.info("活动查询总数据：{}",fenList.size());
@@ -185,24 +175,40 @@ public class ActivityEnrollServiceImpl implements ActivityEnrollService {
         return returnMsg;
     }
     @Override
-    public ReturnMsg queryActivityEnrollListForExampleMore() {
+    public ReturnMsg queryActivityEnrollListForExampleMore(ActivityEnroll activityEnroll) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
 
         AdminUser user = AdminUserUtil.getLoginUser();
         /**
          * 冗余字段设计
          */
-
-        ActivityEnroll activityEnroll = new ActivityEnroll();
         activityEnroll.setStoreId(user.getStoreId());//确保查询本商户下报名的活动
         long moreStart = System.currentTimeMillis();
-        List<ActivityEnroll> list = activityEnrollDao.queryActivityEnrollListFen(activityEnroll);
+        List<ActivityEnroll> list = activityEnrollDao.queryActivityEnrollListMore(activityEnroll);
         long moreEnd = System.currentTimeMillis();
         log.info("冗余字段设计---总耗时：{}",moreEnd-moreStart);
         int count = activityEnrollDao.count(activityEnroll);
         returnMsg.setData("冗余字段设计总耗时="+(moreEnd-moreStart));
         log.info("活动查询总数据：{}",list.size());
 
+        return returnMsg;
+    }
+
+    @Override
+    public ReturnMsg queryActivityEnrollListByProductOrActivity(ActivityEnroll activityEnroll, CommonQueryBean commonQueryBean) {
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        if(commonQueryBean!=null && commonQueryBean.getPageNum()!=null && commonQueryBean.getPageSize()!=null){
+            commonQueryBean.setStart((commonQueryBean.getPageNum()-1)*commonQueryBean.getPageSize());
+        }
+        AdminUser user = AdminUserUtil.getLoginUser();
+        activityEnroll.setStoreId(user.getStoreId());//确保查询本商户下报名的活动
+        long start = System.currentTimeMillis();
+        List<ActivityEnroll> list = activityEnrollDao.queryActivityEnrollListByProductOrActivity(activityEnroll,commonQueryBean);
+        long end = System.currentTimeMillis();
+        log.info("活动查询耗时-OR测试：{}",(end-start));
+        //TODO 分页暂未处理
+        returnMsg.setData(list);
+        returnMsg.setCommonQueryBean(commonQueryBean);
         return returnMsg;
     }
 

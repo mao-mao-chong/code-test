@@ -37,7 +37,5 @@ public interface ProductDao {
     int modifyProduct(Product product);
 
     int count(Product product);
-    @MapKey("id")
-    Map<Long,Product> queryAllProductByStoreId(Long storeId);
 
 }

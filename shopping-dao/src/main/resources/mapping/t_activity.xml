@@ -7,8 +7,6 @@
         <result column="activity_name" property="activityName"/>
         <result column="activity_start_time" property="activityStartTime"/>
         <result column="activity_end_time" property="activityEndTime"/>
-        <result column="activityStartTimeString" property="activityStartTimeString"/>
-        <result column="activityEndTimeString" property="activityEndTimeString"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="del_flag" property="delFlag"/>
@@ -18,8 +16,6 @@
         activity_name,
         activity_start_time,
         activity_end_time,
-        DATE_FORMAT(activity_start_time,'%Y-%m-%d %H:%i:%s') as activityStartTimeString,
-        DATE_FORMAT(activity_end_time,'%Y-%m-%d %H:%i:%s') as activityEndTimeString,
         create_time,
         update_time,
         del_flag
@@ -50,6 +46,7 @@
         <if test="activity.activityName != null">
             and activity_name like concat('%',#{activity.activityName},'%')
         </if>
+
         <if test="activity.activityStartTime != null and activity.activityEndTime!=null">
             and activity_start_time>=#{activity.activityStartTime}
             and activity_end_time &lt;=#{activity.activityEndTime}
@@ -103,11 +100,6 @@
             and activity_start_time>=#{activityStartTime}
             and activity_end_time &lt;=#{activityEndTime}
         </if>
-        and del_flag=0
-    </select>
-    <select id="queryAllActivity" resultType="java.util.Map">
-        select * from t_activity
-        where 1=1
         and del_flag=0
     </select>
 </mapper>

@@ -38,6 +38,4 @@ public interface ActivityDao {
     int modifyActivity(Activity activity);
 
     int count(Activity activity);
-    @MapKey("id")
-    Map<Long,Activity> queryAllActivity();
 }

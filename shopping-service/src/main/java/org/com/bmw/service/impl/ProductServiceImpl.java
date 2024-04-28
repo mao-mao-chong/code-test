@@ -1,5 +1,6 @@
 package org.com.bmw.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.com.bmw.dao.ProductDao;
 import org.com.bmw.model.Activity;
 import org.com.bmw.model.AdminUser;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductDao productDao;
@@ -37,7 +39,10 @@ public class ProductServiceImpl implements ProductService {
         }
         AdminUser user = AdminUserUtil.getLoginUser();
         product.setStoreId(user.getStoreId());
+        long  start = System.currentTimeMillis();
         List<Product> productResult = productDao.queryProductList(product,commonQueryBean);
+        long  end = System.currentTimeMillis();
+        log.info("获取产品列表耗时：{}",(end-start));
         //查询总条数
         int count = productDao.count(product);
         commonQueryBean.setTotal(count);

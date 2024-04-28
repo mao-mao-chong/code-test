@@ -36,5 +36,10 @@ public interface ActivityEnrollDao {
 
     List<ActivityEnroll> queryActivityEnrollListExample(ActivityEnroll activityEnroll);
     List<ActivityEnroll> queryActivityEnrollListFen(ActivityEnroll activityEnroll);
+    List<ActivityEnroll> queryActivityEnrollListMore(ActivityEnroll activityEnroll);
+
+
+    List<ActivityEnroll> queryActivityEnrollListByProductOrActivity(@Param("activityEnroll") ActivityEnroll activityEnroll, @Param("commonQueryBean") CommonQueryBean commonQueryBean);
+
 
 }

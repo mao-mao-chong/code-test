@@ -1,5 +1,6 @@
 package org.com.bmw.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.com.bmw.dao.ActivityDao;
 import org.com.bmw.model.Activity;
 import org.com.bmw.model.ReturnMsg;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ActivityServiceImpl implements ActivityService {
     @Autowired
     ActivityDao activityDao;
@@ -30,7 +32,10 @@ public class ActivityServiceImpl implements ActivityService {
         if(commonQueryBean!=null && commonQueryBean.getPageNum()!=null && commonQueryBean.getPageSize()!=null){
             commonQueryBean.setStart((commonQueryBean.getPageNum()-1)*commonQueryBean.getPageSize());
         }
+        long start = System.currentTimeMillis();
         List<Activity> activityResult = activityDao.queryActivityList(activity,commonQueryBean);
+        long end = System.currentTimeMillis();
+        log.info("查询活动列表耗时：{}",(end-start));
         //查询总条数
         int count = activityDao.count(activity);
         commonQueryBean.setTotal(count);

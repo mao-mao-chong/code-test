@@ -98,7 +98,7 @@ public class ActivityEnrollController {
             CommonQueryBean commonQueryBean = new CommonQueryBean();
             BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
             BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
-            returnMsg = activityEnrollService.queryActivityEnrollListForExampleJoin();
+            returnMsg = activityEnrollService.queryActivityEnrollListForExampleJoin(activityEnroll);
         }catch(Exception e){
             log.info("报名活动列表查询发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
@@ -116,7 +116,7 @@ public class ActivityEnrollController {
             CommonQueryBean commonQueryBean = new CommonQueryBean();
             BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
             BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
-            returnMsg = activityEnrollService.queryActivityEnrollListForExampleFen();
+            returnMsg = activityEnrollService.queryActivityEnrollListForExampleFen(activityEnroll);
 
 //            log.info("报名活动列表查询发生异常：{}",e.getMessage());
 //            returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
@@ -134,7 +134,26 @@ public class ActivityEnrollController {
             CommonQueryBean commonQueryBean = new CommonQueryBean();
             BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
             BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
-            returnMsg = activityEnrollService.queryActivityEnrollListForExampleMore();
+            returnMsg = activityEnrollService.queryActivityEnrollListForExampleMore(activityEnroll);
+        }catch(Exception e){
+            log.info("报名活动列表查询发生异常：{}",e.getMessage());
+            returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());
+        }
+
+        return returnMsg;
+    }
+
+    // 报名活动列表查询（根据活动名称，产品名称）
+    @RequestMapping(value = "/queryActivityEnrollListByProductOrActivity", method = RequestMethod.POST)
+    public ReturnMsg queryActivityEnrollListByProductOrActivity(@RequestBody ActivityEnrollVO activityEnrollVO){
+        log.info("报名活动列表查询:{}",activityEnrollVO);
+        ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+        try{
+            ActivityEnroll activityEnroll = new ActivityEnroll();
+            CommonQueryBean commonQueryBean = new CommonQueryBean();
+            BeanUtils.copyProperties(activityEnrollVO,commonQueryBean);
+            BeanUtils.copyProperties(activityEnrollVO,activityEnroll);
+            returnMsg = activityEnrollService.queryActivityEnrollListByProductOrActivity(activityEnroll,commonQueryBean);
         }catch(Exception e){
             log.info("报名活动列表查询发生异常：{}",e.getMessage());
             returnMsg = new ReturnMsg(Constant.SYSTEM_ERROR.getCode(),Constant.SYSTEM_ERROR.getMessage());

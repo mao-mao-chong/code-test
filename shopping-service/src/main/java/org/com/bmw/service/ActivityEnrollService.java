@@ -33,9 +33,11 @@ public interface ActivityEnrollService {
      */
     ReturnMsg cancelEnroll(ActivityEnroll activityEnroll);
 
-    ReturnMsg queryActivityEnrollListForExampleJoin();
+    ReturnMsg queryActivityEnrollListForExampleJoin(ActivityEnroll activityEnroll);
 
-    ReturnMsg queryActivityEnrollListForExampleFen();
+    ReturnMsg queryActivityEnrollListForExampleFen(ActivityEnroll activityEnroll);
 
-    ReturnMsg queryActivityEnrollListForExampleMore();
+    ReturnMsg queryActivityEnrollListForExampleMore(ActivityEnroll activityEnroll);
+    ReturnMsg queryActivityEnrollListByProductOrActivity(ActivityEnroll activityEnroll,CommonQueryBean commonQueryBean );
+
 }

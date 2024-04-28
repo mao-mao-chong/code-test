@@ -133,6 +133,12 @@
         <if test="storeId != null">
             and ae.store_id=#{storeId}
         </if>
+        <if test="activityId != null">
+            and activity_id=#{activityId}
+        </if>
+        <if test="productId != null">
+            and product_id=#{productId}
+        </if>
         and ae.del_flag=0
         and a.del_flag=0
         and p.del_flag=0
@@ -140,12 +146,49 @@
 
     </select>
     <select id="queryActivityEnrollListFen" resultMap="ActivityEnroll">
+        select id,product_inventory,product_price from t_activity_enroll_example
+        where 1=1
+        <if test="storeId != null">
+            and store_id=#{storeId}
+        </if>
+        <if test="activityId != null">
+            and activity_id=#{activityId}
+        </if>
+        <if test="productId != null">
+            and product_id=#{productId}
+        </if>
+        and del_flag=0
+
+    </select>
+    <select id="queryActivityEnrollListMore" resultMap="ActivityEnroll">
         select id,activity_id,activity_name,product_id,product_name,store_name,product_inventory,product_price from t_activity_enroll_example
         where 1=1
         <if test="storeId != null">
             and store_id=#{storeId}
         </if>
+        <if test="activityId != null">
+            and activity_id=#{activityId}
+        </if>
+        <if test="productId != null">
+            and product_id=#{productId}
+        </if>
         and del_flag=0
 
+    </select>
+    <select id="queryActivityEnrollListByProductOrActivity" resultMap="ActivityEnroll">
+        select * from t_activity_enroll_example
+        where 1=1
+
+        <if test="activityEnroll.activityName != null and activityEnroll.productName != null">
+            and (activity_name = #{activityEnroll.activityName} or product_name = #{activityEnroll.productName})
+        </if>
+        <if test="activityEnroll.storeId != null">
+            and store_id=#{activityEnroll.storeId}
+        </if>
+
+        and del_flag=0
+        <if test="commonQueryBean.start != null and commonQueryBean.pageSize !=null">
+            limit #{commonQueryBean.start},#{commonQueryBean.pageSize}
+        </if>
     </select>
 </mapper>
