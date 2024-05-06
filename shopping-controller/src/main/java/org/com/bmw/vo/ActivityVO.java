@@ -15,10 +15,10 @@ public class ActivityVO extends BaseVO implements Serializable {
 
     private String activityName;
     //活动开始时间
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date activityStartTime;
     //活动结束时间
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date activityEndTime;
 
     public Date getActivityStartTime() {
