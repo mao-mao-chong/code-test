@@ -1,23 +1,15 @@
-import org.com.bmw.Main;
-import org.com.bmw.controller.UserController;
 import org.com.bmw.dao.ActivityDao;
 import org.com.bmw.dao.ActivityEnrollDao;
 import org.com.bmw.dao.ProductDao;
-import org.com.bmw.dao.UserDao;
 import org.com.bmw.model.*;
-import org.com.bmw.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Main.class)
@@ -30,8 +22,6 @@ public class UserTest{
     ActivityDao activityDao;
     @Autowired
     ActivityEnrollDao activityEnrollDao;
-    @Autowired
-    RedisUtil redisUtil;
     @Test
     public void testQuery() {
         ReturnMsg record = new ReturnMsg();
@@ -62,8 +52,8 @@ public class UserTest{
         for(int i=0;i<100000;i++){
             Activity activity = new Activity();
             activity.setActivityName("测试"+1);
-//            activity.setActivityStartTimeString("2024-5-1 00:00:00");
-//            activity.setActivityEndTimeString("2024-6-1 00:00:00");
+            activity.setActivityStartTimeString("2024-5-1 00:00:00");
+            activity.setActivityEndTimeString("2024-6-1 00:00:00");
             activity.setCreateTime(new Date());
             activity.setUpdateTime(new Date());
             activity.setDelFlag(0);
@@ -73,15 +63,21 @@ public class UserTest{
     }
     @Test
     public void insertActivityEnroll(){
-
-//        redisUtil.add(123,234,11);
-        redisUtil.add("1234","345",22);
-        redisUtil.add("1234","14",13);
-        redisUtil.add("1234","22",25);
-        Set<Object> ids = redisUtil.range("1234",0L,4L);
-        List<Object> list = new ArrayList<Object>(ids);
-        for(Object id : list){
-            System.out.println(id);
+        for(int i=0;i<1000000;i++){
+            ActivityEnroll activityEnroll = new ActivityEnroll();
+            activityEnroll.setActivityName("测试"+1);
+            activityEnroll.setStoreName("注册商户1");
+            activityEnroll.setStoreId(3L);
+            activityEnroll.setProductId((long)i);
+            activityEnroll.setProductName("卫龙辣条250g");
+            activityEnroll.setActivityId((long)i);
+            activityEnroll.setActivityName("测试"+1);
+            activityEnroll.setProductPrice(new BigDecimal("1.5"));
+            activityEnroll.setProductInventory(100L);
+            activityEnroll.setCreateTime(new Date());
+            activityEnroll.setUpdateTime(new Date());
+            activityEnroll.setDelFlag(0);
+            activityEnrollDao.insertActivityEnroll(activityEnroll);
         }
 
     }

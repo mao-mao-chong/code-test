@@ -23,8 +23,13 @@ public enum Constant {
     ACTIVITY_NOT_EXIST("-9991","活动不存在"),
     PRODUCT_NOT_EXIST("-9990","商品不存在"),
 
-    ACTIVITY_ENROLL_NOT_EXIST("-8999","报名的活动不存在");
+    ACTIVITY_ENROLL_NOT_EXIST("-8999","报名的活动不存在"),
 
+    SNACKS("snacks","食品类"),
+
+    CLOTHING("clothing","服装类"),
+
+    DEFAULT_PRODUCT_TYPE_ID("productTypeId","1");
     private String code;
     private String message;
 
@@ -49,4 +54,7 @@ public enum Constant {
         this.message = message;
         return this;
     }
+
+
+
 }

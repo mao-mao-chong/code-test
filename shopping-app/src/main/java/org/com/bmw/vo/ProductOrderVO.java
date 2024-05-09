@@ -1,9 +1,15 @@
-package org.com.bmw.model;
+package org.com.bmw.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.com.bmw.model.BaseModel;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class ProductOrder extends BaseModel{
+public class ProductOrderVO extends BaseVO implements Serializable {
+    @NotNull
     private Long productId;
 
     private String productName;
@@ -13,12 +19,13 @@ public class ProductOrder extends BaseModel{
 
     private BigDecimal orderAmount;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date orderTime;
 
     private Integer productCount;
 
+    @NotNull
     private Integer productTypeId;
-
     public Long getProductId() {
         return productId;
     }

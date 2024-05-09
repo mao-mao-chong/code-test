@@ -38,4 +38,6 @@ public interface ProductDao {
 
     int count(Product product);
 
+    List<Product> queryProductByProductIdList(List<Long> list);
+
 }

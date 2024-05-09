@@ -5,6 +5,9 @@ import org.com.bmw.model.Product;
 import org.com.bmw.model.ReturnMsg;
 import org.com.bmw.util.CommonQueryBean;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ProductService {
     /**
      * 商品查询
@@ -33,4 +36,8 @@ public interface ProductService {
      * 商品删除
      */
     ReturnMsg delProduct(Product product);
+
+    ReturnMsg queryProductByProductIdList(List<Long> list);
+
+    Map<Long,List<Object>> queryProductList();
 }

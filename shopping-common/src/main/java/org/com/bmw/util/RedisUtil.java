@@ -651,7 +651,19 @@ public class RedisUtil {
         // 绑定操作
         return zSetOperations.reverseRangeByScoreWithScores(key, min, max);
     }
+    public Set<Object> range(String key, long min, long max) {
+        // 绑定操作
+        return zSetOperations.range(key, min, max);
+    }
+    public boolean add(String key, String value, double score) {
+        return zSetOperations.add(key, value, score);
+    }
 
+    //追加score
+    public Double incrementScore(String key, String value, double score) {
+        // 绑定操作
+        return zSetOperations.incrementScore(key, value, score);
+    }
     // =========zSetOperations 用法 End============
 
 }

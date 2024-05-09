@@ -35,21 +35,21 @@
     <select id="queryProductList" resultMap="Product">
         select * from t_product
         where 1=1
-        <if test="product.id != null">
+        <if test="product!=null and product.id != null">
             and id=#{product.id}
         </if>
-        <if test="product.productName != null">
+        <if test="product!=null and product.productName != null">
             and product_name like concat('%',#{product.productName},'%')
         </if>
 
-        <if test="product.storeId != null">
+        <if test="product!=null and product.storeId != null">
             and store_id = #{product.storeId}
         </if>
-        <if test="product.productTypeId != null">
+        <if test="product!=null and product.productTypeId != null">
             and product_type_id =#{product.productTypeId}
         </if>
         and del_flag=0
-        <if test="commonQueryBean.start != null and commonQueryBean.pageSize !=null">
+        <if test="commonQueryBean!=null and commonQueryBean.start != null and commonQueryBean.pageSize !=null">
             limit #{commonQueryBean.start},#{commonQueryBean.pageSize}
         </if>
     </select>
@@ -117,5 +117,16 @@
             and product_type_id =#{productTypeId}
         </if>
         and del_flag=0
+    </select>
+    <select id="queryProductByProductIdList" resultMap="Product">
+        select * from t_product
+        where 1=1
+        and id in
+        (
+        <foreach collection ="list" item="id" separator =",">
+            #{id}
+        </foreach>
+        )
+
     </select>
 </mapper>
