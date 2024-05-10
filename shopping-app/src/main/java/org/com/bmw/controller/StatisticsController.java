@@ -41,12 +41,8 @@ public class StatisticsController {
         returnMsg.setData(map);
         return returnMsg;
     }
-    //系统启动时，给所有商品添加标签，用来用户搜索时推荐使用 -REDIS SET
 
-    //string\hash--登录存储
-
-
-    //list-待定
+    //list-排行map
     private Map<Integer, Product> dealRank(List<Object> ids,List<Product> list){
         Map<Integer, Product> map = new HashMap<Integer, Product>();
         for(int i=0;i<ids.size();i++){

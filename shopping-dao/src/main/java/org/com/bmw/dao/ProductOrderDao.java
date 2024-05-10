@@ -9,4 +9,6 @@ import java.util.List;
 public interface ProductOrderDao {
 
     List<ProductOrder> queryProductOrderAmount();
+
+    int insertProductOrder(ProductOrder productOrder);
 }

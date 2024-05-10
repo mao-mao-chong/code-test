@@ -36,5 +36,4 @@ public class ProductLoader implements ApplicationListener<ApplicationReadyEvent>
 
         }
     }
-    //用户行为分析推荐
 }

@@ -20,9 +20,11 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     @Override
     public ReturnMsg order(ProductOrder productOrder) {
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
-        //1.下单 TODO
-        //2.更新REDIS该产品产品类型下产品的订单金额
-        redisUtil.incrementScore(productOrder.getProductTypeId().toString(),productOrder.getProductId().toString(),productOrder.getOrderAmount().doubleValue());
+        //1.下单
+        productOrderDao.insertProductOrder(productOrder);
+        //2.更新REDIS该产品产品类型下产品的订单数量
+        redisUtil.incrementScore(productOrder.getProductTypeId().toString(),productOrder.getProductId().toString(),
+                productOrder.getProductCount().doubleValue());
         return returnMsg;
     }
 }

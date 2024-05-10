@@ -8,6 +8,8 @@
         <result column="product_name" property="productName"/>
         <result column="activity_id" property="activityId"/>
         <result column="store_id" property="storeId"/>
+        <result column="product_type_id" property="productTypeId"/>
+        <result column="product_count" property="productCount"/>
         <result column="order_amount" property="orderAmount"/>
         <result column="order_time" property="orderTime"/>
         <result column="create_time" property="createTime"/>
@@ -22,5 +24,21 @@
         group by store_id,product_id,product_name
 
     </select>
-
+    <insert id="insertProductOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into t_product_order(product_id,product_name,activity_id,store_id,product_type_id,product_count,order_amount,order_time,create_time,update_time,del_flag)
+        values (
+                   #{productId},
+                   #{productName},
+                   #{activityId},
+                   #{storeId},
+                   #{productTypeId},
+                   #{productCount},
+                   #{orderAmount},
+                   #{orderTime},
+                   #{productTypeId},
+                   sysdate(),
+                   sysdate(),
+                   0
+               )
+    </insert>
 </mapper>
