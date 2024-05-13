@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -47,6 +48,7 @@ import java.util.Arrays;
  * 用2XX表示本次操作成功，用4XX表示是客户端导致的失败，用5XX表示是服务器引起的错误
  */
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -83,14 +85,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 2\. authorizeRequests目的是指定url进行拦截的，也就是默认这个url是“/”也就是所有的
          * anyanyRequest（）、antMatchers（）和regexMatchers（）三种方法来拼配系统的url。并指定安全策略
          */
-        http.authorizeRequests()
-                //这里指定什么样的接口地址的请求，需要什么样的权限 ANT模式的URL匹配器
-//                .antMatchers("/activity/**","/productType/**").hasAuthority("admin")//管理员-活动管理
-//                .antMatchers("/activity/queryActivity","/activity/queryActivityList","/activityEnroll/**",
-//                        "/product/**","/productType/queryProductTypeList","/saleData/**","/file/upload").hasAuthority("business")//商户
-                .antMatchers("/productOrder/**","/statistics/**","/app/product/**").permitAll();//标识list所有权限都可以直接访问，即使不登录也可以访问。一般将login页面放给这个权限
-
-
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated();

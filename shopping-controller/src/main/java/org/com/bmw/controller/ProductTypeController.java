@@ -10,6 +10,7 @@ import org.com.bmw.util.Constant;
 import org.com.bmw.vo.ProductTypeVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ public class ProductTypeController {
     ProductTypeService productTypeService;
     //商品类型列表查询
     @RequestMapping(value = "/queryProductTypeList", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('business','admin')")
     public ReturnMsg queryProductTypeList(@RequestBody ProductTypeVO productTypeVO){
         log.info("商品类型列表查询：{}"+productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
@@ -43,6 +45,7 @@ public class ProductTypeController {
     }
     //商品类型新增
     @RequestMapping(value = "/addProductType", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin')")
     public ReturnMsg addProductType(@RequestBody ProductTypeVO productTypeVO){
         log.info("商品类型新增:{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
@@ -59,6 +62,7 @@ public class ProductTypeController {
     }
     //商品类型修改
     @RequestMapping(value = "/modifyProductType", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin')")
     public ReturnMsg modifyProductType(@RequestBody ProductTypeVO productTypeVO){
         log.info("商品类型修改：{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
@@ -74,6 +78,7 @@ public class ProductTypeController {
     }
     // 商品类型删除
     @RequestMapping(value = "/delProductType", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin')")
     public ReturnMsg delProductType(@RequestBody ProductTypeVO productTypeVO){
         log.info("商品类型删除：{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
@@ -89,6 +94,7 @@ public class ProductTypeController {
     }
     //商品类型查询
     @RequestMapping(value = "/queryProductType", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('admin','business')")
     public ReturnMsg queryProductType(@RequestBody ProductTypeVO productTypeVO){
         log.info("商品类型查询：{}",productTypeVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());

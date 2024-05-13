@@ -35,23 +35,14 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("----------第一步---------------");
-
+        //获取token
         String token = getToken(request);
         if (StringUtils.isNotBlank(token)) {
+            //获取用户信息
             AdminUser loginUser = tokenService.getLoginUser(token);
             if (loginUser != null) {
                 loginUser = checkLoginTime(loginUser);
-
-                // 校验IP地域 start
-//                String requestsIp = IPUtil.getIpAddress(request);
-//                if (IpCheckUtil.checkIp(ipTableService.getList(), loginUser.getUsername(), requestsIp) == false) {
-//                    ErrorMessage error = ErrorMessage.UN_USERNAME_STATUS;
-//                    error.setMessage("登录账号ip区域不允许, 您的IP："+requestsIp);
-//                    throw BaseAuthenticationException.error(error);
-//                }
-                // 校验IP地域 end
-
+                //存入SecurityContextHolder
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loginUser,
                         null, loginUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -68,8 +59,6 @@ public class TokenFilter extends OncePerRequestFilter {
      * @return
      */
     private AdminUser checkLoginTime(AdminUser loginUser) {
-        log.info("----------181818---------------");
-
         long expireTime = loginUser.getExpireTime();
         long currentTime = System.currentTimeMillis();
         if (expireTime - currentTime <= MINUTES_30) {
@@ -88,8 +77,6 @@ public class TokenFilter extends OncePerRequestFilter {
      * @return
      */
     public static String getToken(HttpServletRequest request) {
-        log.info("----------第二步---------------");
-
         String token = request.getParameter(TOKEN_KEY);
         if (StringUtils.isBlank(token)) {
             token = request.getHeader(TOKEN_KEY);

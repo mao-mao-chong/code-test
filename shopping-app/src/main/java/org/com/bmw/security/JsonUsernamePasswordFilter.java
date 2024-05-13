@@ -22,8 +22,6 @@ public class JsonUsernamePasswordFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("----------第三步---------------");
-
         if (postOnly && !request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());
@@ -31,7 +29,6 @@ public class JsonUsernamePasswordFilter extends UsernamePasswordAuthenticationFi
         //attempt Authentication when Content-Type is json
         if (request.getContentType().startsWith(MediaType.APPLICATION_JSON_VALUE)) {
             Map<String,Object> map = readParamsFromRequest(request);
-
             String userName =(String)map.get("userName");
             String password =(String)map.get("password");
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);

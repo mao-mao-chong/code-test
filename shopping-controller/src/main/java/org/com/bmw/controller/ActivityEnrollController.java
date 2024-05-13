@@ -10,6 +10,7 @@ import org.com.bmw.util.Constant;
 import org.com.bmw.vo.ActivityEnrollVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/activityEnroll")
+@PreAuthorize("hasAuthority('business')")
 @Slf4j
 public class ActivityEnrollController {
 
@@ -24,6 +26,7 @@ public class ActivityEnrollController {
     ActivityEnrollService activityEnrollService;
     // 活动报名
     @RequestMapping(value = "/enroll", method = RequestMethod.POST)
+
     public ReturnMsg enroll(@RequestBody ActivityEnrollVO activityEnrollVO){
         log.info("活动柜报名：{}",activityEnrollVO);
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());

@@ -68,8 +68,6 @@ public class TokenFilter extends OncePerRequestFilter {
      * @return
      */
     private AdminUser checkLoginTime(AdminUser loginUser) {
-        log.info("----------181818---------------");
-
         long expireTime = loginUser.getExpireTime();
         long currentTime = System.currentTimeMillis();
         if (expireTime - currentTime <= MINUTES_30) {

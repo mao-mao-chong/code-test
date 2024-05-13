@@ -38,11 +38,9 @@ public class MyUserDetailsService implements UserDetailsService {
         User user = new User();
         user.setUserName(username);
         User currUser = adminService.selectByUser(user);
-
         if (currUser == null) {//用户不存在报错
             throw new UsernameNotFoundException("用户不存在");
         }
-
         AdminUser adminUser = new AdminUser();
         try {
             BeanUtils.copyProperties(adminUser,currUser );
@@ -52,7 +50,6 @@ public class MyUserDetailsService implements UserDetailsService {
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-
         adminUser.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(adminUser.getRoles()));
         return adminUser;
     }
