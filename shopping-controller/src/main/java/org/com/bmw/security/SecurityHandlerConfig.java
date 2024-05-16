@@ -45,8 +45,6 @@ public class SecurityHandlerConfig {
      */
     @Bean(name = "authenticationSuccessHandler")
     public AuthenticationSuccessHandler loginSuccessHandler() {
-        log.info("----------11 11 11---------------");
-
         return (request, response, authentication) -> {
             AdminUser loginUser = (AdminUser) authentication.getPrincipal();
             Token token = tokenService.saveToken(loginUser);
@@ -61,8 +59,6 @@ public class SecurityHandlerConfig {
 //
     @Bean(name = "formAuthenticationSuccessHandler")
     public AuthenticationSuccessHandler formLoginSuccessHandler() {
-        log.info("----------12121212---------------");
-
         return (request, response, authentication) -> {
             AdminUser loginUser = (AdminUser) authentication.getPrincipal();
             Token token = tokenService.saveToken(loginUser);

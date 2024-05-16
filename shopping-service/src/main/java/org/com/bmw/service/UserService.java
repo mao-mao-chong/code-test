@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    public Map login(User user);
+    public ReturnMsg login(ConsumerUser consumerUser);
     public User selectUserByPrimaryKey(Long id);
 
     public User selectByUser(User user);
@@ -17,4 +17,7 @@ public interface UserService {
     public List<Permission> selectPermissionList(Long userId);
 
     public ReturnMsg registerUser(User user, Store store);
+
+    public ReturnMsg registerUser(ConsumerUser consumerUser);
+
 }

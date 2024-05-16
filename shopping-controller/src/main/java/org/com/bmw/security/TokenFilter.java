@@ -35,23 +35,12 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("----------第一步---------------");
-
         String token = getToken(request);
         if (StringUtils.isNotBlank(token)) {
+            //获取用户信息
             AdminUser loginUser = tokenService.getLoginUser(token);
             if (loginUser != null) {
                 loginUser = checkLoginTime(loginUser);
-
-                // 校验IP地域 start
-//                String requestsIp = IPUtil.getIpAddress(request);
-//                if (IpCheckUtil.checkIp(ipTableService.getList(), loginUser.getUsername(), requestsIp) == false) {
-//                    ErrorMessage error = ErrorMessage.UN_USERNAME_STATUS;
-//                    error.setMessage("登录账号ip区域不允许, 您的IP："+requestsIp);
-//                    throw BaseAuthenticationException.error(error);
-//                }
-                // 校验IP地域 end
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loginUser,
                         null, loginUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -78,7 +67,6 @@ public class TokenFilter extends OncePerRequestFilter {
         }
         return loginUser;
     }
-
     /**
      * 根据参数或者header获取token
      *
@@ -86,8 +74,6 @@ public class TokenFilter extends OncePerRequestFilter {
      * @return
      */
     public static String getToken(HttpServletRequest request) {
-        log.info("----------第二步---------------");
-
         String token = request.getParameter(TOKEN_KEY);
         if (StringUtils.isBlank(token)) {
             token = request.getHeader(TOKEN_KEY);

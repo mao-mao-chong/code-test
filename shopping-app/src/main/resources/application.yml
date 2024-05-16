@@ -1,9 +1,0 @@
-mybatis:
-  mapper-locations: classpath:mapping/*.xml
-  type-aliases-package: org.com.bmw.model
-token:
-  expire:
-    seconds: 2592000 # 30*24*60*60*1000 = 2,592,000
-productDescList:
-  snacks: 方便面,卫龙辣条,饼干,火腿肠
-  clothing: 衬衫,西装,连衣裙,短裙

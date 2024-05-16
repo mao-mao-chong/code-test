@@ -17,7 +17,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/user")
 @Slf4j
-@PreAuthorize("hasAnyAuthority('business','admin')")
 public class UserController {
     @Autowired
     UserService userService;

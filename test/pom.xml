@@ -9,19 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>shopping-app</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>org.com.bmw</groupId>
-            <artifactId>shopping-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.com.bmw</groupId>
-            <artifactId>shopping-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <artifactId>test</artifactId>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -35,8 +23,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.com.bmw.AppMain</mainClass>
-                    <finalName>shop-back</finalName>
+                    <mainClass>org.com.bmw.TestMain</mainClass>
+                    <finalName>shop-test</finalName>
                 </configuration>
             </plugin>
         </plugins>

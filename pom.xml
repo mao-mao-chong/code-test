@@ -13,7 +13,6 @@
         <module>shopping-common</module>
         <module>shopping-service</module>
         <module>shopping-controller</module>
-        <module>shopping-app</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

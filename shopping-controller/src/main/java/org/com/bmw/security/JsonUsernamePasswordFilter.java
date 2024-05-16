@@ -30,8 +30,6 @@ public class JsonUsernamePasswordFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("----------第三步---------------");
-
         if (postOnly && !request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());

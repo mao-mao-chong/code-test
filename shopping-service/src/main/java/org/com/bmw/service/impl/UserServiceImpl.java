@@ -2,13 +2,12 @@ package org.com.bmw.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.com.bmw.dao.PermissionDao;
-import org.com.bmw.dao.RoleDao;
-import org.com.bmw.dao.StoreDao;
-import org.com.bmw.dao.UserDao;
+import org.com.bmw.dao.*;
 import org.com.bmw.model.*;
 import org.com.bmw.service.UserService;
 import org.com.bmw.util.Constant;
+import org.com.bmw.util.JWTUtils;
+import org.com.bmw.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,13 +27,17 @@ public class UserServiceImpl implements UserService {
     RoleDao roleDao;
     @Autowired
     StoreDao storeDao;
+    @Autowired
+    ConsumerUserDao consumerUserDao;
+    @Autowired
+    private RedisUtil redisUtil;
     @Override
-    public Map login(User user) {
+    public ReturnMsg login(ConsumerUser consumerUser) {
         Map result = new HashMap();
         ReturnMsg returnMsg = new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
-        User currUser = userDao.selectUser(user);
+        ConsumerUser currUser = consumerUserDao.selectConsumerUser(consumerUser);
         if(currUser!=null){
-            if(!StringUtils.equals(currUser.getPassword(),user.getPassword())){
+            if(!StringUtils.equals(currUser.getPassword(),consumerUser.getPassword())){
                 returnMsg.setErrorCode(Constant.LOGIN_PASS_ERROR.getCode());
                 returnMsg.setErrorMsg(Constant.LOGIN_PASS_ERROR.getMessage());
             }
@@ -42,19 +45,13 @@ public class UserServiceImpl implements UserService {
             returnMsg.setErrorCode(Constant.LOGIN_NO_USER.getCode());
             returnMsg.setErrorMsg(Constant.LOGIN_NO_USER.getMessage());
         }
-        String token =null;
-        if(StringUtils.equals(returnMsg.getErrorCode(),Constant.SUCCESS.getCode())){
-            //登录成功
-            token = UUID.randomUUID().toString();
-            //查询菜单信息
-            List<Permission> permissionList = permissionDao.selectPermissionByUserId(currUser.getId());
-            returnMsg.setData(delPermission(permissionList));
-        }
-
+        //生成jwt-token
+        String token= JWTUtils.createToken(currUser.getId());
+        //用户信息存入redis
+        redisUtil.set(currUser.getId().toString(),currUser);
         result.put("token",token);
-        result.put("user",currUser);
-        result.put("returnMsg",returnMsg);
-        return result;
+        returnMsg.setData(result);
+        return returnMsg;
     }
 
     private List<Permission> delPermission(List<Permission> permissionList){
@@ -127,6 +124,21 @@ public class UserServiceImpl implements UserService {
         useRole.setUserId(user.getId());
         useRole.setRoleId(2L);//商户---只支持商户注册
         roleDao.insertRoleForUser(useRole);
+        return new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
+    }
+
+    @Override
+    public ReturnMsg registerUser(ConsumerUser consumerUser) {
+        //查询是否存在
+        ConsumerUser existUser = consumerUserDao.selectConsumerUser(consumerUser);
+        if(existUser!=null){
+            return new ReturnMsg(Constant.USER_EXIST.getCode(), Constant.USER_EXIST.getMessage());
+        }
+        //注册用户
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode(consumerUser.getPassword());
+        consumerUser.setPassword(encode);
+        consumerUserDao.insertConsumerUser(consumerUser);
         return new ReturnMsg(Constant.SUCCESS.getCode(),Constant.SUCCESS.getMessage());
     }
 

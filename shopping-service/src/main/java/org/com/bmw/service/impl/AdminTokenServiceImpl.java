@@ -35,7 +35,6 @@ public class AdminTokenServiceImpl implements AdminTokenService {
 
     @Override
     public Token saveToken(AdminUser loginUser) {
-
         Object token = redisUtil.get(String.format(key_user_token, loginUser.getId()));
         if (token == null) {
             token = UUID.randomUUID().toString();

@@ -82,6 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          *  4\. csrf（）提供的跨站请求伪造防护功能
          */
         http.authorizeRequests()
+                .antMatchers("/user/**","/file/download").permitAll();
+        http.authorizeRequests()
                 .anyRequest()
                 .authenticated();
         http.exceptionHandling()
