@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class JWTUtils {
     // TOKEN的有效期一天（S）
-    private static final int TOKEN_TIME_OUT = 3_600;
+    private static final int TOKEN_TIME_OUT = 2592000;
     // 加密KEY
     private static final String TOKEN_ENCRY_KEY = "MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY";
     // 最小刷新间隔(S)
@@ -32,7 +32,7 @@ public class JWTUtils {
                 .setAudience("app")  //接收用户
                 .compressWith(CompressionCodecs.GZIP)  //数据压缩方式
                 .signWith(SignatureAlgorithm.HS512, generalKey()) //加密方式
-                .setExpiration(new Date(currentTime + TOKEN_TIME_OUT * 1000))  //过期时间戳
+                .setExpiration(new Date(currentTime + TOKEN_TIME_OUT))  //过期时间戳
                 .addClaims(claimMaps) //cla信息
                 .compact();
     }

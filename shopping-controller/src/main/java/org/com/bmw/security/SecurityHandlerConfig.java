@@ -57,17 +57,6 @@ public class SecurityHandlerConfig {
         };
     }
 //
-    @Bean(name = "formAuthenticationSuccessHandler")
-    public AuthenticationSuccessHandler formLoginSuccessHandler() {
-        return (request, response, authentication) -> {
-            AdminUser loginUser = (AdminUser) authentication.getPrincipal();
-            Token token = tokenService.saveToken(loginUser);
-            //实际项目token要设置超时时间和path,此处我们是模拟，就先不设置了
-            CookieUtils.setCookie(response, "token" , token.getToken());
-            log.info(JSON.toJSONString(token));
-            ResponseUtil.responseRedirectUrl(response, "/product/listPageSeckillProducts");
-        };
-    }
 
 
     /**

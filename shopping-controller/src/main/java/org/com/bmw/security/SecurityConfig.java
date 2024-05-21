@@ -57,8 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name="authenticationSuccessHandler")
     private AuthenticationSuccessHandler authenticationSuccessHandler;
-    @Resource(name="formAuthenticationSuccessHandler")
-    private AuthenticationSuccessHandler formAuthenticationSuccessHandler;
+//    @Resource(name="formAuthenticationSuccessHandler")
+//    private AuthenticationSuccessHandler formAuthenticationSuccessHandler;
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
@@ -102,8 +102,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
         http.addFilterAt(jsonUsernamePasswordFilter(),
                 UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAt(formUsernamePasswordFilter(),
-                JsonUsernamePasswordFilter.class);
+//        http.addFilterAt(formUsernamePasswordFilter(),
+//                JsonUsernamePasswordFilter.class);
         http.addFilterBefore(tokenFilter, JsonUsernamePasswordFilter.class);
     }
 
@@ -140,16 +140,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-    @Bean
-    public FormUsernamePasswordFilter formUsernamePasswordFilter() throws Exception {
-        FormUsernamePasswordFilter filter = new FormUsernamePasswordFilter();
-        filter.setAuthenticationSuccessHandler(formAuthenticationSuccessHandler);
-        filter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        filter.setFilterProcessesUrl("/user/loginPage");
-        //这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
-        filter.setAuthenticationManager(authenticationManagerBean());
-        return filter;
-    }
+//    @Bean
+//    public FormUsernamePasswordFilter formUsernamePasswordFilter() throws Exception {
+//        FormUsernamePasswordFilter filter = new FormUsernamePasswordFilter();
+//        filter.setAuthenticationSuccessHandler(formAuthenticationSuccessHandler);
+//        filter.setAuthenticationFailureHandler(authenticationFailureHandler);
+//        filter.setFilterProcessesUrl("/user/loginPage");
+//        //这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
+//        filter.setAuthenticationManager(authenticationManagerBean());
+//        return filter;
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
