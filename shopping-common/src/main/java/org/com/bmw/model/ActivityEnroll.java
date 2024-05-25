@@ -21,6 +21,8 @@ public class ActivityEnroll extends BaseModel{
     //商品库存
     private Long productInventory;
 
+    private Long saledInventory;
+
 
     public Long getActivityId() {
         return activityId;
@@ -84,6 +86,14 @@ public class ActivityEnroll extends BaseModel{
 
     public void setProductInventory(Long productInventory) {
         this.productInventory = productInventory;
+    }
+
+    public Long getSaledInventory() {
+        return saledInventory;
+    }
+
+    public void setSaledInventory(Long saledInventory) {
+        this.saledInventory = saledInventory;
     }
 
     @Override

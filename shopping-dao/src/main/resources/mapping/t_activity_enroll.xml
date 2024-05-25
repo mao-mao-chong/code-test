@@ -11,6 +11,7 @@
         <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="product_inventory" property="productInventory"/>
+        <result column="saled_inventory" property="saledInventory"/>
         <result column="product_price" property="productPrice"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -82,7 +83,7 @@
         where id=#{id}
     </update>
     <insert id="insertActivityEnroll" useGeneratedKeys="true" keyProperty="id">
-        insert into t_activity_enroll(activity_id,activity_name,store_id,store_name,product_id,product_inventory,product_price,product_name,create_time,update_time,del_flag)
+        insert into t_activity_enroll(activity_id,activity_name,store_id,store_name,product_id,product_inventory,saled_inventory,product_price,product_name,create_time,update_time,del_flag)
         values (
                 #{activityId},
                 #{activityName},
@@ -90,6 +91,7 @@
                 #{storeName},
                 #{productId},
                 #{productInventory},
+                0,
                 #{productPrice},
                 #{productName},
                 sysdate(),

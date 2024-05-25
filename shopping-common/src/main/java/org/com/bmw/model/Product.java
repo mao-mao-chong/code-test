@@ -10,6 +10,8 @@ public class Product  extends BaseModel{
     private BigDecimal productPrice;
     //商品库存
     private Long productInventory;
+
+    private Long saledInventory;
     //图片地址‘
     private String pictureUrl;
     //商品介绍
@@ -73,6 +75,14 @@ public class Product  extends BaseModel{
 
     public void setProductTypeId(Long productTypeId) {
         this.productTypeId = productTypeId;
+    }
+
+    public Long getSaledInventory() {
+        return saledInventory;
+    }
+
+    public void setSaledInventory(Long saledInventory) {
+        this.saledInventory = saledInventory;
     }
 
     @Override

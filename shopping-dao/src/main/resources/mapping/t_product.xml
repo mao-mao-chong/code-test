@@ -9,6 +9,7 @@
         <result column="product_price" property="productPrice"/>
         <result column="picture_url" property="pictureUrl"/>
         <result column="product_introduce" property="productIntroduce"/>
+        <result column="saled_inventory" property="saledInventory"/>
         <result column="store_id" property="storeId"/>
         <result column="product_type_id" property="productTypeId"/>
         <result column="create_time" property="createTime"/>
@@ -86,11 +87,12 @@
         where id=#{id}
     </update>
     <insert id="insertProduct" useGeneratedKeys="true" keyProperty="id">
-        insert into t_product(product_name,product_price,product_inventory,picture_url,product_introduce,store_id,product_type_id,create_time,update_time,del_flag)
+        insert into t_product(product_name,product_price,product_inventory,saled_inventory,picture_url,product_introduce,store_id,product_type_id,create_time,update_time,del_flag)
         values (
                    #{productName},
                    #{productPrice},
                    #{productInventory},
+                   0,
                    #{pictureUrl},
                    #{productIntroduce},
                    #{storeId},
