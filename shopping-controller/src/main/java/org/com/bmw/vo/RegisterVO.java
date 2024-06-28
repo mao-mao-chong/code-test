@@ -7,14 +7,14 @@ import java.io.Serializable;
 @Data
 @ToString
 public class RegisterVO implements Serializable {
-    private String userName;
-    private String password;
+    private String username;
+    private String passWord;
     private Long storeId;
 
     //店铺名称
     private String storeName;
     //证件
-    private String businessLicense;
+    protected String businessLicense;
     //地区
     private String area;
     //地址

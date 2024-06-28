@@ -29,6 +29,9 @@ public class UserController {
             log.info("用户注册数据：{}",vo);
             User user = new User();
             Store store = new Store();
+            //处理遗留问题，大小写错误
+            user.setUserName(vo.getUsername());
+            user.setPassword(vo.getPassWord());
             BeanUtils.copyProperties(vo,user);
             BeanUtils.copyProperties(vo,store);
             returnMsg = userService.registerUser(user,store);
